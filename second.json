@@ -1,0 +1,511 @@
+{
+	"info": {
+		"_postman_id": "5a0b96be-ed38-4689-92ff-ddc4b6f83554",
+		"name": "First collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19365908"
+	},
+	"item": [
+		{
+			"name": "URL Status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Status has a value UP\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status).to.eql(\"UP\");\r",
+							"    console.log(jsonData.status)\r",
+							"});\r",
+							"\r",
+							"const data1 = JSON.parse(responseBody);\r",
+							"\r",
+							"console.log(data1)\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "\"0225f71676e8d418753aba578deba0a83a62cfba5fd77eac1a9287f68a98c616\"",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/status",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"ledofData = JSON.parse(responseBody)\r",
+							"let lenodBody = ledofData.length\r",
+							"\r",
+							"pm.test(\"The body has \" + String(lenodBody) + \" items\", function() {\r",
+							"    console.log(ledofData.length)\r",
+							"\r",
+							"});\r",
+							"\r",
+							"const jsondata = JSON.parse(responseBody)\r",
+							"console.log(jsondata[0].category)\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/products",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a single product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Element id and catagory is present in the body\", function () {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson.id).to.eql(2585);\r",
+							"    pm.expect(responseJson.category).to.eql(\"fresh-produce\");\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/products/:productId",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"products",
+						":productId"
+					],
+					"variable": [
+						{
+							"key": "productId",
+							"value": "2585"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api access token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 409 already registerd user\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Has a token\", function(){\r",
+							"    const data = pm.response.json();\r",
+							"    pm.environment.set(\"token\", data.accessToken);\r",
+							"    accessToken = data.accessToken;\r",
+							"    console.log(accessToken)\r",
+							"\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"clientName\": \"Postman on Valentin's computer\",\r\n   \"clientEmail\": \"{{emailAddress}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}//api-clients",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"",
+						"api-clients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a Cart",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}//carts/:cartId",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"",
+						"carts",
+						":cartId"
+					],
+					"variable": [
+						{
+							"key": "cartId",
+							"value": "{{CARTID}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a Cart",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/carts",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"carts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Cart Items",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"const jsondata = JSON.parse(responseBody)\r",
+							"\r",
+							"const d = jsondata[jsondata.length-1].id\r",
+							"console.log(d)\r",
+							"\r",
+							"pm.globals.set(\"delete\", d);\r",
+							"console.log(jsondata.length-1)\r",
+							"\r",
+							"\r",
+							"//const j = pm.collectionVariables.get(jsondata[1].id);\r",
+							"\r",
+							"//console.log(jsondata.length)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/carts/:cartId/items",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"carts",
+						":cartId",
+						"items"
+					],
+					"variable": [
+						{
+							"key": "cartId",
+							"value": "{{CARTID}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ADD AN ITEM TO CART",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"productId\": 4641\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/carts/:cartId/items",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"carts",
+						":cartId",
+						"items"
+					],
+					"variable": [
+						{
+							"key": "cartId",
+							"value": "{{CARTID}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE AN ITEM FROM CART",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/carts/:cartId/items/:itemId",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"carts",
+						":cartId",
+						"items",
+						":itemId"
+					],
+					"variable": [
+						{
+							"key": "cartId",
+							"value": "{{CARTID}}"
+						},
+						{
+							"key": "itemId",
+							"value": "{{delete}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "check if an item deleted",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"pm.test(\"Cart does not include deleted item\", function () {\r",
+							"    let savedItemId = global.get(\"{{delet}}\");\r",
+							"    pm.response.to.not.include(savedItemId);    \r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/carts/:cartId/items",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"carts",
+						":cartId",
+						"items"
+					],
+					"variable": [
+						{
+							"key": "cartId",
+							"value": "{{CARTID}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "\"0225f71676e8d418753aba578deba0a83a62cfba5fd77eac1a9287f68a98c616\"",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"var random = Math.random().toString(36).substring(2);",
+					"var emailAddress = \"tom\" + random + \"@gmail.com\";",
+					"",
+					"console.log(emailAddress)",
+					"",
+					"pm.environment.set(\"emailAddress\", emailAddress);"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URL",
+			"value": "https://simple-grocery-store-api.glitch.me",
+			"type": "string"
+		}
+	]
+}
